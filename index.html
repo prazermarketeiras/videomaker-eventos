@@ -1079,7 +1079,7 @@ body.js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
 <section class="hero">
   <!-- Visual esquerda -->
   <div class="hero-visual-wrap">
-    <video autoplay muted loop playsinline preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;">
+    <video autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;">
       <source src="video1.mp4" type="video/mp4">
     </video>
   </div>
@@ -1119,7 +1119,7 @@ body.js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
 <!-- ── O QUE É ── -->
 <section class="oque">
   <div class="oque-foto-wrap reveal" style="overflow:hidden;border-radius:12px;box-shadow:0 28px 72px rgba(92,58,30,0.28);">
-    <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;min-height:400px;object-fit:cover;display:block;border-radius:12px;">
+    <video autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto" style="width:100%;height:100%;min-height:400px;object-fit:cover;display:block;border-radius:12px;">
       <source src="video2.mp4" type="video/mp4">
     </video>
   </div>
@@ -1264,7 +1264,7 @@ body.js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
       </div>
     </div>
     <div class="dif-video-wrap reveal reveal-delay-1">
-      <video autoplay muted loop playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <video autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" preload="auto" style="width:100%;height:100%;object-fit:cover;display:block;">
         <source src="video3.mp4" type="video/mp4">
       </video>
     </div>
@@ -1641,6 +1641,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+</script>
+
+<script>
+// Autoplay robusto para mobile (iOS Safari, Android Chrome, WeChat)
+(function() {
+  function playVideo(v) {
+    if (!v || !v.paused) return;
+    v.muted = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function() {});
+  }
+
+  function playAll() {
+    document.querySelectorAll('video').forEach(function(v) {
+      playVideo(v);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', playAll);
+
+  ['touchstart', 'click'].forEach(function(ev) {
+    document.addEventListener(ev, playAll, { passive: true, once: true });
+  });
+
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) playAll();
+  });
+})();
 </script>
 
 
